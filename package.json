@@ -1,0 +1,17 @@
+{
+    "name": "gearhub",
+    "version": "1.0.0",
+    "description": "Gear Hub",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "author": "cathode.y2k@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "ejs": "^2.6.1",
+        "express": "^4.16.4",
+        "mongoose": "^5.4.2"
+    }
+}
