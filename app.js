@@ -5,11 +5,12 @@ const mongoose = require("mongoose");
 const Comment = require("./models/comment");
 const Item = require("./models/item");
 const preloadDB = require("./preloadDB");
+require("dotenv").config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
-mongoose.connect("mongodb://localhost/gearhub", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 preloadDB();
 
 //ROUTES - HOME
