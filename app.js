@@ -33,12 +33,20 @@ app.use(
 );
 
 // PASSPORT CONFIG
-require("./config/passport_config");
+require("./config/passport_config")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 // CONNECT FLASH
 app.use(flash());
+
+// PASS FLASH MSGS TO TEMPLATE
+app.use(function(req, res, next) {
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 //ROUTES - HOME
 app.get("/", function(req, res) {
@@ -177,24 +185,27 @@ app.post("/register", (req, res) => {
                     email,
                     password
                 });
-                bcrypt.genSalt(10, (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    newUser
-                        .save()
-                        .then(user => {
-                            req.flash(
-                                "success_msg",
-                                "Registered, please log in"
-                            );
-                            res.redirect("/login");
-                        })
-                        .catch(err => console.log(err));
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.password = hash;
+                        newUser
+                            .save()
+                            .then(user => {
+                                req.flash(
+                                    "success_msg",
+                                    "Registered, please log in"
+                                );
+                                res.redirect("/login");
+                            })
+                            .catch(err => console.log(err));
+                    });
                 });
             }
         });
     }
 });
+
 //LOGIN POST
 app.post("/login", (req, res, next) => {
     passport.authenticate("local", {
