@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Comment = require("../models/comment");
 const userAuthenticated = require("../auth/userAuth");
+const Item = require("../models/item");
 
 // ROUTE - COMMENTS
 
@@ -29,6 +30,9 @@ router.post("/items/:id/comments", userAuthenticated, (req, res) => {
                 if (err) {
                     console.log(err);
                 } else {
+                    comment.author.id = res.locals.user._id;
+                    comment.author.username = res.locals.user.name;
+                    comment.save();
                     //connect comment to item
                     item.comments.push(comment);
                     item.save();

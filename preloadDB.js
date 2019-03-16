@@ -59,22 +59,6 @@ function preloadDB() {
                         console.log(err);
                     } else {
                         console.log("item added");
-                        //create a comment
-                        Comment.create(
-                            {
-                                text: "Awesome device thanks for the review",
-                                author: "Bob Smith"
-                            },
-                            (err, comment) => {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    item.comments.push(comment);
-                                    item.save();
-                                    console.log("Created new comment");
-                                }
-                            }
-                        );
                     }
                 });
             });
