@@ -3,6 +3,9 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const passport = require("passport");
+const randomString = require("randomstring");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API);
 
 // AUTHENTICATION ROUTES
 
@@ -46,11 +49,32 @@ router.post("/register", (req, res) => {
                     password2
                 });
             } else {
+                //generate verify string
+                const secretToken = randomString.generate();
+                //flag account as inactive
+                const active = false;
+                //create new user
                 const newUser = new User({
                     name,
                     email,
-                    password
+                    password,
+                    secretToken,
+                    active
                 });
+                // sending verification email to client
+                const msg = {
+                    to: email,
+                    from: "no-reply@gear-hub-app.herokuapp.com",
+                    subject: "Welcome to GearHub",
+                    html: `Hi there, ${name}<br/>
+                    Thank you for registering at GearHub!<br/>
+                    Please verify your email by copy/pasting the following token:<br/>
+                    ${secretToken}<br/>
+                    at<br/>
+                    <a href="https://gear-hub-app.herokuapp.com/verify">GearHub</a>`
+                };
+                sgMail.send(msg);
+
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if (err) throw err;
@@ -60,7 +84,7 @@ router.post("/register", (req, res) => {
                             .then(user => {
                                 req.flash(
                                     "success_msg",
-                                    "Registered, please log in"
+                                    "Registered, please check your email or email spam folder"
                                 );
                                 res.redirect("/login");
                             })
@@ -79,6 +103,31 @@ router.post("/login", (req, res, next) => {
         failureRedirect: "/login",
         failureFlash: true
     })(req, res, next);
+});
+
+// VERIFY
+router.get("/verify", (req, res) => {
+    res.render("verify");
+});
+
+//VERIFY POST
+router.post("/verify", (req, res) => {
+    const secretToken = req.body.secretToken;
+    User.findOne({ secretToken: secretToken.trim() })
+        .then(user => {
+            if (!user) {
+                req.flash("error_msg", "invalid token");
+                res.redirect("/verify");
+                return;
+            }
+            user.active = true;
+            user.secretToken = "";
+            user.save();
+
+            req.flash("success_msg", "Success, please log in");
+            res.redirect("/login");
+        })
+        .catch(err => console.log(err));
 });
 
 //LOGOUT

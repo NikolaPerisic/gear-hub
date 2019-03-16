@@ -2,7 +2,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-
 const User = require("../models/user");
 
 module.exports = function(passport) {
@@ -17,6 +16,11 @@ module.exports = function(passport) {
                     if (!user) {
                         return done(null, false, {
                             message: "Email not registered"
+                        });
+                    }
+                    if (!user.active) {
+                        return done(null, false, {
+                            message: "Email not verified"
                         });
                     }
                     // Check pass

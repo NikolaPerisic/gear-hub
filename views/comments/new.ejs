@@ -6,12 +6,12 @@
         <div class="p-5 flex-fill bd-highlight">
             <form action="/items/<%= item._id %>/comments" method="POST">
                 <div class="form-group">
-                    <input
+                    <textarea
                         class="form-control"
                         type="text"
-                        placeholder="text"
+                        placeholder="your comment"
                         name="comment[text]"
-                    />
+                    ></textarea>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block">Submit</button>

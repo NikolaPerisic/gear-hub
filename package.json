@@ -10,6 +10,7 @@
     "author": "cathode.y2k@gmail.com",
     "license": "ISC",
     "dependencies": {
+        "@sendgrid/mail": "^6.3.1",
         "bcryptjs": "^2.4.3",
         "connect-flash": "^0.1.1",
         "dotenv": "^7.0.0",
@@ -18,7 +19,8 @@
         "express-session": "^1.15.6",
         "mongoose": "^5.4.2",
         "passport": "^0.4.0",
-        "passport-local": "^1.0.0"
+        "passport-local": "^1.0.0",
+        "randomstring": "^1.1.5"
     },
     "devDependencies": {
         "nodemon": "^1.18.10"
