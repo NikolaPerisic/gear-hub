@@ -66,9 +66,12 @@ router.get("/items/:id", (req, res) => {
 router.get("/items/:id/edit", userAuthenticated, (req, res) => {
     Item.findById(req.params.id, (err, foundItem) => {
         if (err) {
+            console.log(err);
             res.redirect("/items");
-        } else {
+        } else if (req.user.name === foundItem.author.username) {
             res.render("items/edit", { item: foundItem });
+        } else {
+            res.redirect("/items");
         }
     });
 });
