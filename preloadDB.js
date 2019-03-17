@@ -52,7 +52,7 @@ function preloadDB() {
                 console.log(err);
             }
             console.log("comments removed");
-            // seed with data
+            //seed with data
             data.forEach(seed => {
                 Item.create(seed, (err, item) => {
                     if (err) {

@@ -16,8 +16,26 @@
                 <h1 class="card-title pl-1"><%=item.name%></h1>
                 <p class="card-text pl-1"><%=item.review%></p>
                 <p class="card-text pl-1 pb-3">
-                    <small class="text-muted">Price: 9,99$</small>
+                    <small class="text-muted"
+                        >Review written by <%= item.author.username %></small
+                    >
                 </p>
+                <% if(isAuthenticated) { %> <% if(user.name ===
+                item.author.username) { %>
+                <a
+                    class="btn btn-outline-warning"
+                    href="/items/<%= item._id %>/edit"
+                    >EDIT</a
+                >
+                <form
+                    action="/items/<%= item._id %>?_method=DELETE"
+                    method="POST"
+                >
+                    <button class="btn btn-outline-danger btn-block">
+                        Delete
+                    </button>
+                </form>
+                <% } %> <% } %>
             </div>
             <div class="card mb-9 mt-3">
                 <div class="card-header">

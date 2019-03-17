@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const flash = require("connect-flash");
 const preloadDB = require("./preloadDB");
+const methodOverride = require("method-override");
 require("dotenv").config();
+mongoose.set("useFindAndModify", false);
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 
 const itemsRoutes = require("./routes/items");
 const commentsRoutes = require("./routes/comments");
@@ -20,8 +23,6 @@ mongoose
     .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
     .then(() => console.log("mongodb connected"))
     .catch(err => console.log(err));
-
-preloadDB();
 
 // SESSION CONFIG
 app.use(
