@@ -1,6 +1,10 @@
 body {
     background-color: #95a5a6;
 }
-.card-img-top  {
+.card-img-top {
     border-radius: 0;
+}
+
+.form-btn {
+    display: inline;
 }

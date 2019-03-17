@@ -1,5 +1,4 @@
-<% include ../partials/header %>
-
+<% include ../partials/header %> <% include ../partials/messages %>
 <div class="container">
     <div class="row">
         <div class="col-md-3">
@@ -20,22 +19,25 @@
                         >Review written by <%= item.author.username %></small
                     >
                 </p>
-                <% if(isAuthenticated) { %> <% if(user.name ===
-                item.author.username) { %>
-                <a
-                    class="btn btn-outline-warning"
-                    href="/items/<%= item._id %>/edit"
-                    >EDIT</a
-                >
-                <form
-                    action="/items/<%= item._id %>?_method=DELETE"
-                    method="POST"
-                >
-                    <button class="btn btn-outline-danger btn-block">
-                        Delete
-                    </button>
-                </form>
-                <% } %> <% } %>
+                <% if(isAuthenticated && user.name === item.author.username) {
+                %>
+                <div class="d-flex justify-content-start">
+                    <a
+                        class="btn btn-xs btn-warning"
+                        href="/items/<%= item._id %>/edit"
+                        >Edit</a
+                    >
+                    <form
+                        class="form-btn"
+                        action="/items/<%= item._id %>?_method=DELETE"
+                        method="POST"
+                    >
+                        <a class="btn btn-xs btn-danger ml-1">
+                            Delete
+                        </a>
+                    </form>
+                </div>
+                <% } %>
             </div>
             <div class="card mb-9 mt-3">
                 <div class="card-header">
@@ -55,11 +57,32 @@
                             <%= comment.author.username %>
                             <p class="card-text float-right">
                                 <small class="text-muted"
-                                    >Last updated 3 mins ago</small
+                                    ><%=comment.date.toLocaleString()%></small
                                 >
                             </p>
                         </h5>
                         <p class="card-text"><%= comment.text %></p>
+                        <% if (isAuthenticated && user.name ===
+                        comment.author.username) { %>
+                        <div class="d-flex justify-content-end">
+                            <a
+                                class="btn btn-xs btn-warning"
+                                href="/items/<%=item._id%>/comments/<%=comment._id%>/edit"
+                                >Edit</a
+                            >
+                            <form
+                                class="form-btn"
+                                action="/items/<%=item._id%>/comments/<%=comment._id%>?_method=DELETE"
+                                method="POST"
+                            >
+                                <input
+                                    type="submit"
+                                    class="btn btn-xs btn-danger ml-1"
+                                    value="Delete"
+                                />
+                            </form>
+                        </div>
+                        <% } %>
                         <hr />
                     </div>
                     <% }) %>
