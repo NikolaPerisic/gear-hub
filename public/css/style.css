@@ -1,5 +1,11 @@
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+html,
 body {
-    background-color: #95a5a6;
+    box-sizing: border-box;
 }
 .card-img-top {
     border-radius: 0;

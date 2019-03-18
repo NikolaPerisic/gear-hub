@@ -39,6 +39,7 @@ router.post("/items", userAuthenticated, (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            req.flash("success_msg", "Post created!");
             res.redirect("/items");
         }
     });
@@ -86,6 +87,7 @@ router.put("/items/:id", userAuthenticated, (req, res) => {
         if (err) {
             res.redirect("/items");
         } else {
+            req.flash("success_msg", "Post Edit success!");
             res.redirect("/items/" + req.params.id);
         }
     });
@@ -97,6 +99,7 @@ router.delete("/items/:id", userAuthenticated, (req, res) => {
         if (err) {
             console.log(err);
         }
+        req.flash("success_msg", "Deleted!");
         res.redirect("/items");
     });
 });

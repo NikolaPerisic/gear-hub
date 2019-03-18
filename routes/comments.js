@@ -29,6 +29,7 @@ router.post("/items/:id/comments", userAuthenticated, (req, res) => {
                     item.comments.push(comment);
                     item.save();
                     //redirect to show items page
+                    req.flash("success_msg", "New comment created!");
                     res.redirect("/items/" + item._id);
                 })
                 .catch(err => console.log(err));
@@ -75,7 +76,10 @@ router.delete(
     userAuthenticated,
     (req, res) => {
         Comment.findByIdAndDelete(req.params.comment_id)
-            .then(comment => res.redirect("/items/" + req.params.id))
+            .then(comment => {
+                req.flash("success_msg", "Comment deleted!");
+                res.redirect("/items/" + req.params.id);
+            })
             .catch(err => console.log(err));
     }
 );
