@@ -6,9 +6,27 @@
 html,
 body {
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
+
 .card-img-top {
     border-radius: 0;
+}
+.jumbotron {
+    background: url("../images/photo-unsplash.jpeg");
+    background-position: center;
+    padding-left: 0;
+    padding-right: 0;
+    font-weight: 500;
+}
+.index-wrapper {
+    background-color: rgba(255, 255, 255, 0.89);
+    width: 100%;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 
 .form-btn {

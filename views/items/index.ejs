@@ -2,11 +2,13 @@
 
 <div class="container">
     <header class="jumbotron mt-3">
-        <h1>Welcome to GearHub!</h1>
-        <p>Review interesting gadgets, IoT and smart home devices</p>
-        <p>
-            <a class="btn btn-primary" href="/items/new">Add New Item</a>
-        </p>
+        <div class="index-wrapper">
+            <h1>Welcome to GearHub!</h1>
+            <p>Review interesting gadgets, IoT and smart home devices</p>
+            <p>
+                <a class="btn btn-dark" href="/items/new">Add New Item</a>
+            </p>
+        </div>
     </header>
 
     <div class="container">
@@ -18,7 +20,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><%= item.name %></h5>
                         <p class="card-text"><%=item.description%></p>
-                        <a href="/items/<%=item._id%>" class="btn btn-primary"
+                        <a href="/items/<%=item._id%>" class="btn btn-secondary"
                             >More Info</a
                         >
                     </div>
